@@ -2,7 +2,9 @@ import db from '../db.js';
 
 export async function getTransactions (req,res){
 
-    db.collection("users").find().toArray().then(transactions => {
+    const user = req.headers.email
+
+    db.collection("users").findOne({email: user}).toArray().then(transactions => {
         res.send(transactions);
     }).catch(error => {
         console.log(error)

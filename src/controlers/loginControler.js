@@ -7,9 +7,9 @@ export async function postLogin(req, res) {
 
     if(password === user.password) {
 
-        res.sendStatus(200);
+        return res.send(user);
 
     } else {
-        console.log("E-mail ou senha incorretos")
+        alert("E-mail ou senha incorretos")
     }
 }
