@@ -16,18 +16,7 @@ export async function getTransactions (req,res){
 export async function postTransaction (req,res){
 
     const { date, description, value } = req.body;
-    const user = req.headers.email
-
-    const transactionSchema = joi.object({
-        value: joi.number().required
-    })
-
-    const transactionValidation = transactionSchema.validate(value);
-
-    if (transactionValidation.error) {
-        console.log(transactionValidation.error)
-        return res.sendStatus(422)
-    }
+    const user = req.headers.user
 
     try {
 
@@ -37,10 +26,9 @@ export async function postTransaction (req,res){
         value: value
     }
 
+    await db.collection("users").updateOne({email: user}, {$push: { "transactions": {transaction} } }
+    )
 
-    await db.collection("users").findOne({
-        email: email
-    }).insertOne(transaction)
     return res.sendStatus(201)
 
     } catch (error){
