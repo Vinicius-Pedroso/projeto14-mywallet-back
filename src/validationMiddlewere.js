@@ -1,6 +1,6 @@
 import joi from 'joi'
 
-async function validationSignup(req, res, next) {
+export function validationSignup(req, res, next) {
 
     const newUser = req.body;
 
@@ -19,5 +19,3 @@ async function validationSignup(req, res, next) {
 
     next();
 }
-
-export {validationSignup}

@@ -1,12 +1,6 @@
-import db from '../db';
-import express from 'express'
-import cors from 'cors'
+import db from '../db.js';
 
-app.use(cors());
-app.use(express.json());
-
-
-async function getTransactions (req,res){
+export async function getTransactions (req,res){
 
     db.collection("users").find().toArray().then(transactions => {
         res.send(transactions);
@@ -17,7 +11,7 @@ async function getTransactions (req,res){
 
 }
 
-async function addTransaction (req,res){
+export async function addTransaction (req,res){
 
     const { date, description, value } = req.body;
     const user = req.headers.email
@@ -53,5 +47,3 @@ async function addTransaction (req,res){
     }
 
 }
-
-export {getTransactions, addTransaction};

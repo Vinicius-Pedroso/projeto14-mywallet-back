@@ -1,24 +1,25 @@
-import db from '../db';
-import express from 'express'
-import cors from 'cors'
-import { validationSignup } from '../validationMiddlewere';
-
-app.use(cors());
-app.use(express.json());
-
-app.use(validationSignup);
+import db from '../db.js';
 
 export async function getSignin(req,res) {
+
+    const {name, email, password, passwordConfirm} = body.req
 
     try {
 
         const verifyUserEmail = await db.collection("users").findOne({
-            email: newUser.email
+            email: email
         })
     
         if (verifyUserEmail) {
             console.log("Esse e-mail já esta cadastrado")
             return res.sendStatus(409);
+        }
+
+        const newUser = {
+            name: name,
+            email: email,
+            password: password,
+            passwordConfirm: passwordConfirm
         }
     
         await db.collection("users").insertOne(newUser)
