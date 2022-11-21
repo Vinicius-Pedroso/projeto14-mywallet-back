@@ -1,6 +1,11 @@
 import { v4 as uuid } from 'uuid';
 import bcrypt from 'bcrypt';
 import db from '../db';
+import express from 'express'
+import cors from 'cors'
+
+app.use(cors());
+app.use(express.json());
 
 export async function getLogin(req, res) {
 

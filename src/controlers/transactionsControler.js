@@ -1,5 +1,10 @@
-import joi from 'joi'
 import db from '../db';
+import express from 'express'
+import cors from 'cors'
+
+app.use(cors());
+app.use(express.json());
+
 
 async function getTransactions (req,res){
 
@@ -14,12 +19,19 @@ async function getTransactions (req,res){
 
 async function addTransaction (req,res){
 
+    const { date, description, value } = req.body;
+    const user = req.headers.email
+
     const transactionSchema = joi.object({
         value: joi.number().required
     })
 
-    const { date, description, value } = req.body;
-    const email = req.headers.user
+    const transactionValidation = transactionSchema.validate(value);
+
+    if (transactionValidation.error) {
+        console.log(transactionValidation.error)
+        return res.sendStatus(422)
+    }
 
     try {
 
@@ -29,12 +41,6 @@ async function addTransaction (req,res){
         value: value
     }
 
-    const transactionValidation = transactionSchema.validate();
-
-    if (transactionValidation.error) {
-        console.log(transactionValidation.error.details)
-        return res.sendStatus(422)
-    }
 
     await db.collection("users").findOne({
         email: email
