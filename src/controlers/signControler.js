@@ -1,13 +1,13 @@
 import db from '../db.js';
 
-export async function getSignin(req,res) {
+export async function postSignin(req,res) {
 
-    const {name, email, password, passwordConfirm} = body.req
+    const newUser = req.body
 
     try {
 
         const verifyUserEmail = await db.collection("users").findOne({
-            email: email
+            email: newUser.email
         })
     
         if (verifyUserEmail) {
@@ -15,14 +15,13 @@ export async function getSignin(req,res) {
             return res.sendStatus(409);
         }
 
-        const newUser = {
-            name: name,
-            email: email,
-            password: password,
-            passwordConfirm: passwordConfirm
+        const newUserAdd = {
+            name: newUser.name,
+            email: newUser.email,
+            password: newUser.password
         }
     
-        await db.collection("users").insertOne(newUser)
+        await db.collection("users").insertOne(newUserAdd)
         return res.sendStatus(201);
     
     } catch (error) {

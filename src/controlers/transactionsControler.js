@@ -11,7 +11,7 @@ export async function getTransactions (req,res){
 
 }
 
-export async function addTransaction (req,res){
+export async function postTransaction (req,res){
 
     const { date, description, value } = req.body;
     const user = req.headers.email
